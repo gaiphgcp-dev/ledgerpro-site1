@@ -759,8 +759,6 @@ VI. Continuous Improvement:
 20. Security Review and Updates:
 •	Regularly reviews and updates security protocols to adapt to evolving threats and vulnerabilities.
 
-
-
 - Client Onboarding: Includes initial consultation, agreement signing ($ engagement letter), information gathering ($ checklist), and software set-up.
 - Data Collection: Uses naming conventions and secure file-sharing platforms.
 - Data Entry & Reconciliation: Matching transactions against bank statements periodically.
