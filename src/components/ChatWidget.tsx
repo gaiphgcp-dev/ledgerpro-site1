@@ -92,24 +92,24 @@ export default function ChatWidget() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="mb-4 w-96 max-w-[calc(100vw-2rem)] overflow-hidden rounded-[2rem] border border-white/5 bg-brand-navy/95 soft-shadow backdrop-blur-xl"
+            className="mb-4 w-[350px] max-w-[calc(100vw-2rem)] h-[500px] max-h-[calc(100vh-10rem)] flex flex-col overflow-hidden rounded-[2rem] border border-white/5 bg-brand-navy/95 soft-shadow backdrop-blur-xl"
           >
             {/* Header */}
             <div 
               onClick={() => setIsOpen(false)}
-              className="flex cursor-pointer items-center justify-between bg-brand-navy p-6 text-brand-accent border-b border-white/5"
+              className="flex shrink-0 cursor-pointer items-center justify-between bg-brand-navy p-5 text-brand-accent border-b border-white/5"
             >
               <div className="flex items-center gap-4">
                 <div className="relative">
-                  <div className="h-2.5 w-2.5 rounded-full bg-brand-accent shadow-[0_0_10px_rgba(37,99,235,0.8)]"></div>
-                  <div className="absolute inset-0 h-2.5 w-2.5 animate-ping rounded-full bg-brand-accent"></div>
+                  <div className="h-2 w-2 rounded-full bg-brand-accent shadow-[0_0_10px_rgba(37,99,235,0.8)]"></div>
+                  <div className="absolute inset-0 h-2 w-2 animate-ping rounded-full bg-brand-accent"></div>
                 </div>
                 <div>
-                  <h3 className="text-sm font-black uppercase tracking-widest text-white">LedgerPro Assistant</h3>
-                  <p className="text-[10px] font-bold text-brand-accent opacity-60">Online & Grounded</p>
+                  <h3 className="text-xs font-black uppercase tracking-widest text-white">LedgerPro Assistant</h3>
+                  <p className="text-[9px] font-bold text-brand-accent opacity-50 uppercase tracking-tighter">Secure & Live</p>
                 </div>
               </div>
-              <div className="rounded-full bg-white/5 p-1.5 transition-colors hover:bg-white/10">
+              <div className="rounded-full bg-white/5 p-1 transition-colors hover:bg-white/10">
                 <ChevronDown className="h-4 w-4 opacity-40" />
               </div>
             </div>
@@ -117,7 +117,7 @@ export default function ChatWidget() {
             {/* Chat Box */}
             <div 
               ref={scrollRef}
-              className="h-[32rem] overflow-y-auto p-6 text-sm space-y-4"
+              className="flex-1 overflow-y-auto p-5 text-sm space-y-4"
             >
               {history.length === 0 && (
                 <motion.div 
@@ -185,10 +185,10 @@ export default function ChatWidget() {
         whileHover={{ scale: 1.1, rotate: isOpen ? -90 : 0 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="group relative flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-accent text-brand-navy shadow-[0_20px_50px_rgba(37,99,235,0.3)] transition-all overflow-hidden"
+        className="group relative flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-accent text-brand-navy shadow-[0_20px_50px_rgba(37,99,235,0.3)] transition-all overflow-hidden"
       >
         <div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity group-hover:opacity-100"></div>
-        {isOpen ? <ChevronDown className="h-7 w-7" /> : <MessageSquare className="h-7 w-7" />}
+        {isOpen ? <ChevronDown className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
       </motion.button>
 
     </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Shield, CheckCircle, BarChart3, ArrowRight } from 'lucide-react';
 
@@ -25,12 +26,16 @@ export default function Home() {
             Expert financial services specializing in accurate recording, monthly reconciliation, and advanced reporting. Engineered to secure your growth.
           </p>
           <div className="flex flex-wrap gap-4">
-            <button className="pill-button bg-brand-accent text-brand-navy shadow-xl shadow-brand-accent/10 hover:scale-105 active:scale-95">
-              Get Started
-            </button>
-            <button className="pill-button border-2 border-brand-accent/20 bg-transparent text-brand-accent hover:bg-brand-accent/5">
-              Learn More
-            </button>
+            <Link to="/contact">
+              <button className="pill-button bg-brand-accent text-brand-navy shadow-xl shadow-brand-accent/10 hover:scale-105 active:scale-95">
+                Get Started
+              </button>
+            </Link>
+            <Link to="/services">
+              <button className="pill-button border-2 border-brand-accent/20 bg-transparent text-brand-accent hover:bg-brand-accent/5">
+                Learn More
+              </button>
+            </Link>
           </div>
         </motion.div>
 
@@ -98,9 +103,13 @@ export default function Home() {
                 </div>
                 <h3 className="mb-4 text-xl font-bold text-brand-accent">{service.title}</h3>
                 <p className="text-sm leading-relaxed text-brand-accent/60">{service.desc}</p>
-                <div className="mt-8 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-accent opacity-0 transition-opacity group-hover:opacity-100">
+                <Link 
+                  to="/contact" 
+                  onClick={() => window.scrollTo(0, 0)}
+                  className="mt-8 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-accent opacity-0 transition-opacity group-hover:opacity-100 cursor-pointer"
+                >
                   Explore <ArrowRight className="h-4 w-4" />
-                </div>
+                </Link>
               </motion.div>
             ))}
           </div>

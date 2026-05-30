@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { 
   Check, 
@@ -30,15 +31,26 @@ const ServiceCard = ({ icon, title, description, delay = 0 }: { icon: React.Reac
     viewport={{ once: true }}
     transition={{ delay, duration: 0.5 }}
     whileHover={{ y: -8, boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.3)" }}
-    className="bg-white/5 rounded-[2rem] border border-white/5 p-8 transition-all group backdrop-blur-sm"
+    className="bg-white/5 rounded-[2rem] border border-white/5 p-8 transition-all group backdrop-blur-sm flex flex-col h-full"
   >
     <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#2563eb]/10 text-[#2563eb] transition-colors group-hover:bg-[#2563eb] group-hover:text-white">
       {icon}
     </div>
     <h3 className="mb-4 text-xl font-bold text-white tracking-tight">{title}</h3>
-    <div className="text-sm leading-relaxed text-slate-400">
+    <div className="text-sm leading-relaxed text-slate-400 flex-1">
       {description}
     </div>
+    <Link to="/contact" onClick={() => window.scrollTo(0, 0)} className="mt-8 block">
+      <motion.div
+        whileHover={{ scale: 1.02, boxShadow: "0 0 25px rgba(37,99,235,0.4)" }}
+        whileTap={{ scale: 0.98 }}
+        animate={{ boxShadow: ["0 0 10px rgba(37,99,235,0.1)", "0 0 20px rgba(37,99,235,0.3)", "0 0 10px rgba(37,99,235,0.1)"] }}
+        transition={{ animate: { duration: 3, repeat: Infinity, ease: "easeInOut" } }}
+        className="w-full py-3 rounded-full font-bold text-xs text-center transition-colors cursor-pointer bg-[#2563eb] text-white uppercase tracking-widest"
+      >
+        Inquire Now
+      </motion.div>
+    </Link>
   </motion.div>
 );
 
@@ -292,6 +304,17 @@ export default function Services() {
                                 <p className="text-sm text-slate-500">Data-driven insights and expert recommendations for your success.</p>
                             </div>
                         </div>
+                        <Link to="/contact" onClick={() => window.scrollTo(0, 0)} className="mt-12 block mx-auto w-full max-w-xs">
+                          <motion.div
+                            whileHover={{ scale: 1.02, boxShadow: "0 0 25px rgba(37,99,235,0.4)" }}
+                            whileTap={{ scale: 0.98 }}
+                            animate={{ boxShadow: ["0 0 10px rgba(37,99,235,0.1)", "0 0 20px rgba(37,99,235,0.3)", "0 0 10px rgba(37,99,235,0.1)"] }}
+                            transition={{ animate: { duration: 3, repeat: Infinity, ease: "easeInOut" } }}
+                            className="w-full py-4 rounded-full font-bold text-sm text-center transition-colors cursor-pointer bg-[#2563eb] text-white uppercase tracking-widest"
+                          >
+                            Inquire Now
+                          </motion.div>
+                        </Link>
                     </div>
                 </div>
             </motion.div>
@@ -327,12 +350,33 @@ const PricingTier = ({ name, target, features, icon, featured = false }: { name:
                 </li>
             ))}
         </ul>
-        <button className={`w-full py-4 rounded-full font-bold text-sm transition-all ${
-            featured 
-                ? 'bg-white text-[#2563eb] shadow-xl' 
-                : 'bg-[#2563eb] text-white shadow-lg shadow-[#2563eb]/20'
-        }`}>
-            Inquire Now
-        </button>
+        <Link to="/contact">
+            <motion.div
+                whileHover={{ 
+                    scale: 1.02, 
+                    boxShadow: featured ? "0 0 25px rgba(255,255,255,0.4)" : "0 0 25px rgba(37,99,235,0.4)" 
+                }}
+                whileTap={{ scale: 0.98 }}
+                animate={{
+                    boxShadow: featured 
+                        ? ["0 0 10px rgba(255,255,255,0.1)", "0 0 20px rgba(255,255,255,0.3)", "0 0 10px rgba(255,255,255,0.1)"]
+                        : ["0 0 10px rgba(37,99,235,0.1)", "0 0 20px rgba(37,99,235,0.3)", "0 0 10px rgba(37,99,235,0.1)"]
+                }}
+                transition={{
+                    animate: {
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }
+                }}
+                className={`w-full py-4 rounded-full font-bold text-sm text-center transition-colors cursor-pointer ${
+                    featured 
+                        ? 'bg-white text-[#2563eb]' 
+                        : 'bg-[#2563eb] text-white'
+                }`}
+            >
+                Inquire Now
+            </motion.div>
+        </Link>
     </motion.div>
 );

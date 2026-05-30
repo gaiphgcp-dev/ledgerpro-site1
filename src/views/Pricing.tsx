@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Check, Info, Rocket, Briefcase, Building2, Globe, History, Layers, FileText, Settings } from 'lucide-react';
 
@@ -9,15 +10,15 @@ const fadeUp = {
   transition: { duration: 0.6, ease: "easeOut" }
 };
 
-const FeatureList = ({ title, items, icon }: { title: string, items: string[], icon: React.ReactNode }) => (
-  <div className="rounded-3xl border border-white/5 bg-white/[0.02] p-8 soft-shadow">
+const FeatureList = ({ title, items, icon, children }: { title: string, items: string[], icon: React.ReactNode, children?: React.ReactNode }) => (
+  <div className="rounded-3xl border border-white/5 bg-white/[0.02] p-8 soft-shadow flex flex-col h-full">
     <div className="mb-6 flex items-center gap-3">
       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-accent/10 text-brand-accent">
         {icon}
       </div>
       <h3 className="text-xl font-bold text-white">{title}</h3>
     </div>
-    <ul className="space-y-4">
+    <ul className="space-y-4 flex-1">
       {items.map((item, i) => (
         <li key={i} className="flex items-start gap-3 group">
           <div className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-brand-accent/20 text-brand-accent transition-colors group-hover:bg-brand-accent group-hover:text-brand-navy">
@@ -29,6 +30,7 @@ const FeatureList = ({ title, items, icon }: { title: string, items: string[], i
         </li>
       ))}
     </ul>
+    {children}
   </div>
 );
 
@@ -104,13 +106,15 @@ export default function Pricing() {
                 {plan.limit}
               </div>
 
-              <button className={`w-full pill-button ${
-                plan.featured 
-                  ? 'bg-brand-navy text-white hover:bg-brand-navy/90' 
-                  : 'border border-brand-accent/30 text-brand-accent hover:bg-brand-accent/5'
-              }`}>
-                Get Started
-              </button>
+              <Link to="/contact">
+                <button className={`w-full pill-button ${
+                  plan.featured 
+                    ? 'bg-brand-navy text-white hover:bg-brand-navy/90' 
+                    : 'border border-brand-accent/30 text-brand-accent hover:bg-brand-accent/5'
+                }`}>
+                  Get Started
+                </button>
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -136,9 +140,11 @@ export default function Pricing() {
               <div className="text-4xl font-extrabold text-brand-accent">$50</div>
               <div className="text-xs font-bold uppercase tracking-[0.2em] text-brand-accent/40 mt-1">per monthly transactions</div>
             </div>
-            <button className="pill-button bg-white text-brand-navy hover:scale-105 active:scale-95 whitespace-nowrap">
-              Schedule Clean-Up
-            </button>
+            <Link to="/contact">
+              <button className="pill-button bg-white text-brand-navy hover:scale-105 active:scale-95 whitespace-nowrap">
+                Schedule Clean-Up
+              </button>
+            </Link>
           </div>
           <div className="absolute right-0 top-1/2 -translate-y-1/2 h-64 w-64 bg-brand-accent/5 rounded-full blur-3xl" />
         </motion.div>
@@ -152,7 +158,7 @@ export default function Pricing() {
         </motion.div>
 
         <div className="grid gap-8 md:grid-cols-3">
-          <motion.div {...fadeUp}>
+          <motion.div {...fadeUp} className="h-full">
             <FeatureList 
               title="Accounting Software Features" 
               icon={<Settings className="h-6 w-6" />}
@@ -165,10 +171,22 @@ export default function Pricing() {
                 "Projects Profitability Tracking",
                 "Quickbooks Online Subscription"
               ]} 
-            />
+            >
+              <Link to="/contact" onClick={() => window.scrollTo(0, 0)} className="mt-8 block">
+                <motion.div
+                  whileHover={{ scale: 1.02, boxShadow: "0 0 25px rgba(37,99,235,0.4)" }}
+                  whileTap={{ scale: 0.98 }}
+                  animate={{ boxShadow: ["0 0 10px rgba(37,99,235,0.1)", "0 0 20px rgba(37,99,235,0.3)", "0 0 10px rgba(37,99,235,0.1)"] }}
+                  transition={{ animate: { duration: 3, repeat: Infinity, ease: "easeInOut" } }}
+                  className="w-full py-3 rounded-full font-bold text-xs text-center transition-colors cursor-pointer bg-[#2563eb] text-white uppercase tracking-widest"
+                >
+                  Inquire Now
+                </motion.div>
+              </Link>
+            </FeatureList>
           </motion.div>
 
-          <motion.div {...fadeUp} transition={{ delay: 0.1 }}>
+          <motion.div {...fadeUp} transition={{ delay: 0.1 }} className="h-full">
             <FeatureList 
               title="Bookkeeping Services" 
               icon={<Layers className="h-6 w-6" />}
@@ -184,10 +202,22 @@ export default function Pricing() {
                 "Money Market Reconciliation",
                 "Securities Portfolio Management"
               ]} 
-            />
+            >
+              <Link to="/contact" onClick={() => window.scrollTo(0, 0)} className="mt-8 block">
+                <motion.div
+                  whileHover={{ scale: 1.02, boxShadow: "0 0 25px rgba(37,99,235,0.4)" }}
+                  whileTap={{ scale: 0.98 }}
+                  animate={{ boxShadow: ["0 0 10px rgba(37,99,235,0.1)", "0 0 20px rgba(37,99,235,0.3)", "0 0 10px rgba(37,99,235,0.1)"] }}
+                  transition={{ animate: { duration: 3, repeat: Infinity, ease: "easeInOut" } }}
+                  className="w-full py-3 rounded-full font-bold text-xs text-center transition-colors cursor-pointer bg-[#2563eb] text-white uppercase tracking-widest"
+                >
+                  Inquire Now
+                </motion.div>
+              </Link>
+            </FeatureList>
           </motion.div>
 
-          <motion.div {...fadeUp} transition={{ delay: 0.2 }}>
+          <motion.div {...fadeUp} transition={{ delay: 0.2 }} className="h-full">
             <FeatureList 
               title="Reporting Capabilities" 
               icon={<FileText className="h-6 w-6" />}
@@ -203,7 +233,19 @@ export default function Pricing() {
                 "Accounts Receivable Reports",
                 "Accounts Payable Reports"
               ]} 
-            />
+            >
+              <Link to="/contact" onClick={() => window.scrollTo(0, 0)} className="mt-8 block">
+                <motion.div
+                  whileHover={{ scale: 1.02, boxShadow: "0 0 25px rgba(37,99,235,0.4)" }}
+                  whileTap={{ scale: 0.98 }}
+                  animate={{ boxShadow: ["0 0 10px rgba(37,99,235,0.1)", "0 0 20px rgba(37,99,235,0.3)", "0 0 10px rgba(37,99,235,0.1)"] }}
+                  transition={{ animate: { duration: 3, repeat: Infinity, ease: "easeInOut" } }}
+                  className="w-full py-3 rounded-full font-bold text-xs text-center transition-colors cursor-pointer bg-[#2563eb] text-white uppercase tracking-widest"
+                >
+                  Inquire Now
+                </motion.div>
+              </Link>
+            </FeatureList>
           </motion.div>
         </div>
       </section>
@@ -214,7 +256,9 @@ export default function Pricing() {
           <h2 className="text-2xl font-bold text-white mb-4">Need a specialized package?</h2>
           <p className="text-brand-accent/60 mb-8 font-medium">We offer custom solutions for enterprises with unique reporting and volume requirements.</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="pill-button bg-brand-accent text-brand-navy font-bold">Contact Sales</button>
+            <Link to="/contact">
+              <button className="pill-button bg-brand-accent text-brand-navy font-bold">Contact Sales</button>
+            </Link>
             <button className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-brand-accent px-8 transition-colors hover:text-white">
               <Info className="h-4 w-4" /> View FAQs
             </button>

@@ -15,6 +15,10 @@ import ChatWidget from './components/ChatWidget';
 function AppContent() {
   const location = useLocation();
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   return (
     <div className="min-h-screen bg-brand-surface font-sans text-brand-accent selection:bg-brand-accent/20 transition-colors duration-500">
       <Header />

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ShieldCheck, Target, Lightbulb, Users, BarChart, Rocket } from 'lucide-react';
 
@@ -62,6 +63,14 @@ export default function About() {
             <p className="text-lg font-bold text-brand-accent">
               Precision, trust, and innovation – that's what we bring to the table. Let's transform your financial journey together.
             </p>
+
+            <div className="pt-8 text-center md:text-left">
+              <Link to="/contact" onClick={() => window.scrollTo(0, 0)}>
+                <button className="pill-button bg-brand-accent text-brand-navy shadow-xl shadow-brand-accent/10 hover:scale-105 active:scale-95 px-10">
+                  Get Started
+                </button>
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -117,6 +126,19 @@ export default function About() {
               </p>
             </motion.div>
           </div>
+          
+          {/* Final CTA */}
+          <motion.div 
+            {...fadeUp}
+            className="mt-20 text-center"
+          >
+            <h2 className="mb-8 text-3xl font-black text-white uppercase tracking-widest">Ready to secure your growth?</h2>
+            <Link to="/contact" onClick={() => window.scrollTo(0, 0)}>
+              <button className="pill-button bg-brand-accent text-brand-navy shadow-xl shadow-brand-accent/10 hover:scale-105 active:scale-95 px-12 py-5 text-lg">
+                Get Started with LedgerPro
+              </button>
+            </Link>
+          </motion.div>
         </div>
       </section>
     </div>
