@@ -1,0 +1,6 @@
+{
+  "name": "LedgerPro Virtual Assistance",
+  "description": "Premium virtual bookkeeping and financial reporting services for modern enterprises.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
