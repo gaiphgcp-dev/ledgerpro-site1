@@ -104,7 +104,7 @@ export default function Home() {
                 <h3 className="mb-4 text-xl font-bold text-brand-accent">{service.title}</h3>
                 <p className="text-sm leading-relaxed text-brand-accent/60">{service.desc}</p>
                 <Link 
-                  to="/contact" 
+                  to="/services" 
                   onClick={() => window.scrollTo(0, 0)}
                   className="mt-8 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-accent opacity-0 transition-opacity group-hover:opacity-100 cursor-pointer"
                 >
