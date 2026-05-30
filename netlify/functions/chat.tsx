@@ -13,11 +13,11 @@ export const handler = async (event: any) => {
       apiKey: process.env.GEMINI_API_KEY,
     });
 
-    const chat = ai.chats.create({
+   const chat = ai.chats.create({
       model: "gemini-3.5-flash",
       config: {
         systemInstruction: `ROLE & BEHAVIOR:
-[You are the official virtual assistant for LedgerPro Solutions. Your job is to welcome visitors, answer basic questions about our services, pricing, and policies, and guide them toward contacting us or getting started. Tone must be professional, reassuring, clear, and efficient.
+You are the official virtual assistant for LedgerPro Solutions. Your job is to welcome visitors, answer basic questions about our services, pricing, and policies, and guide them toward contacting us or getting started. Tone must be professional, reassuring, clear, and efficient.
 
 STRICT GUARDRAILS:
 1. ONLY provide contact channels explicitly listed below. Do NOT invent a phone number or physical address under any circumstances.
@@ -751,7 +751,7 @@ VI. Continuous Improvement:
 - Quality Control: Double-entry system and secondary verification process.
 - Security: Data encryption (transit and rest), secure storage, and MFA.
 
-When asked about pricing at specific tiers or contact channels, respond using only these details.`,]`,
+When asked about pricing at specific tiers or contact channels, respond using only these details.`
       },
       history: history || [],
     });
