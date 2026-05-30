@@ -46,9 +46,12 @@ export default function Home() {
           className="relative aspect-square md:aspect-auto md:h-full"
         >
           <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-tr from-brand-accent/20 to-brand-navy/5 shadow-2xl overflow-hidden border border-white/5">
-            <img 
-              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80" 
-              alt="Financial Analysis" 
+            <video 
+              src="/finance-bg.mp4" 
+              autoPlay 
+              loop 
+              muted 
+              playsInline 
               className="h-full w-full object-cover grayscale opacity-30 mix-blend-luminosity"
             />
             <div className="absolute -bottom-6 -left-6 rounded-2xl bg-brand-navy/90 p-6 soft-shadow md:block hidden border border-white/10 backdrop-blur-xl">
