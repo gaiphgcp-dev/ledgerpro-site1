@@ -13,6 +13,7 @@ export default function Header() {
           {[
             { name: 'Home', path: '/' },
             { name: 'About Us', path: '/about' },
+            { name: 'Our Services', path: '/services' },
             { name: 'Pricing Plan', path: '/pricing' },
             { name: 'Contact', path: '/contact' }
           ].map((item) => (
