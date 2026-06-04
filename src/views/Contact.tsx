@@ -73,15 +73,15 @@ export default function Contact() {
                 <ContactCard 
                   icon={<Mail className="h-6 w-6" />} 
                   title="Primary Email" 
-                  label="accounts1@ledgerpro.org" 
-                  href="mailto:accounts1@ledgerpro.org"
+                  label="account1@ledgerpro.org.uk" 
+                  href="mailto:account1@ledgerpro.org.uk"
                   delay={0.1}
                 />
                 <ContactCard 
                   icon={<Globe className="h-6 w-6" />} 
                   title="Official Website" 
-                  label="ledgerpro.org" 
-                  href="https://ledgerpro.org"
+                  label="ledgerpro.org.uk" 
+                  href="https://ledgerpro.org.uk"
                   delay={0.2}
                 />
                 <ContactCard 

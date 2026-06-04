@@ -5,7 +5,7 @@ import Logo from './Logo';
 
 export default function Footer() {
   const socials = [
-    { icon: <Mail className="h-4 w-4" />, href: "mailto:accounts1@ledgerpro.org", label: "Email" },
+    { icon: <Mail className="h-4 w-4" />, href: "mailto:account1@ledgerpro.org.uk", label: "Email" },
     { icon: <Instagram className="h-4 w-4" />, href: "https://instagram.com/ledgerpro01", label: "Instagram" },
     { icon: <Linkedin className="h-4 w-4" />, href: "https://linkedin.com/in/heracles-george-parafina-29629b29a", label: "LinkedIn" },
     { icon: <Facebook className="h-4 w-4" />, href: "https://facebook.com/profile.php?id=61553472084908", label: "Facebook" }
@@ -58,10 +58,10 @@ export default function Footer() {
 
         <div className="mt-16 text-center">
           <a 
-            href="https://ledgerpro.org" 
+            href="https://ledgerpro.org.uk" 
             className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-accent/10 transition-colors hover:text-brand-accent/30"
           >
-            ledgerpro.org
+            ledgerpro.org.uk
           </a>
         </div>
       </div>

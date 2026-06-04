@@ -30,58 +30,104 @@ export default function ChatWidget() {
     setUserInput("");
     setIsLoading(true);
 
-    // Client-side simulation logic based on approved knowledge
-    const getLocalResponse = (input: string) => {
-      const lowerInput = input.toLowerCase();
-      
-      if (lowerInput.includes('pricing') || lowerInput.includes('plan') || lowerInput.includes('cost') || lowerInput.includes('how much')) {
-        return "Our pricing tiers are: Start-up ($190/mo, up to 100 transactions), Medium ($240/mo, up to 200 transactions), Large ($290/mo, up to 300 transactions), and Extra Large (Custom Price for 300+ transactions). Historical Clean-up is also available at $50 per monthly transaction.";
-      }
-      
-      if (lowerInput.includes('contact') || lowerInput.includes('email') || lowerInput.includes('social') || lowerInput.includes('instagram') || lowerInput.includes('facebook') || lowerInput.includes('linkedin')) {
-        return "You can reach us at accounts1@ledgerpro.org. We are also active on Instagram (@ledgerpro01), LinkedIn (Heracles George Parafina), and Facebook (LedgerPro Solutions). Our website is https://ledgerpro.org.";
-      }
-      
-      if (lowerInput.includes('service') || lowerInput.includes('what do you do') || lowerInput.includes('bookkeeping') || lowerInput.includes('reconciliation')) {
-        return "We provide expert bookkeeping, monthly bank reconciliations, financial reporting (Income Statements, Balance Sheets), expense management, and historical clean-up services. We also manage Accounts Receivable and Payable.";
-      }
-      
-      if (lowerInput.includes('onboard') || lowerInput.includes('start')) {
-        return "Starting is easy! We'll begin with an initial consultation, followed by an agreement signature, information gathering via our checklist, and finally setting up your systems (like QuickBooks).";
-      }
-
-      if (lowerInput.includes('security') || lowerInput.includes('privacy') || lowerInput.includes('safe')) {
-        return "We take data very seriously. All sensitive financial data is encrypted in transit and at rest, and we utilize secure MFA-protected cloud storage platforms for all client records.";
-      }
-
-      return null;
-    };
-
     try {
-      const response = await fetch("/.netlify/functions/chat", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: currentInput, history: history }),
       });
 
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.error || `Server Error ${response.status}: Ensure local server configuration matches API route requirements.`;
+        throw new Error(errorMessage);
+      }
+
       const data = await response.json();
       if (data.text) {
         setHistory([...newHistory, { role: "model", parts: [{ text: data.text }] }]);
       } else {
-        throw new Error("No response from server");
+        throw new Error("Empty response from AI");
       }
-    } catch (error) {
-      console.warn("Server chat failed, using local simulation:", error);
-      const localResponse = getLocalResponse(currentInput) || "I'm sorry, I'm having trouble connecting to my main brain right now. For detailed inquiries, please email accounts1@ledgerpro.org and our team will get back to you within 24 hours!";
-      setTimeout(() => {
-        setHistory([...newHistory, { role: "model", parts: [{ text: localResponse }] }]);
-        setIsLoading(false);
-      }, 1000);
-      return; 
+    } catch (error: any) {
+      console.error("Chat Error:", error);
+      
+      setHistory([...newHistory, { 
+        role: "model", 
+        parts: [{ text: `Connection Error: I am having trouble reaching my cloud brain right now. (${error.message}). Please ensure your local server environment is running properly.` }] 
+      }]);
     } finally {
       setIsLoading(false);
     }
   }
+
+  // Helper function to safely parse and render bold text, links, and emails
+  const renderFormattedText = (text: string) => {
+    return text.split('\n').map((line, i) => {
+      if (!line.trim()) return null;
+      
+      const isBullet = line.trim().startsWith('*') || line.trim().startsWith('-') || line.trim().startsWith('•');
+      const cleanLine = isBullet ? line.replace(/^[*•-]\s*/, '') : line;
+      
+      // Master Regex that catches: 1. Bold, 2. Markdown Links, 3. Raw URLs, 4. Emails
+      const tokenRegex = /(\*\*.*?\*\*|\[.*?\]\(.*?\)|https?:\/\/[^\s]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
+      const parts = cleanLine.split(tokenRegex);
+      
+      return (
+        <div key={i} className={isBullet ? "ml-3 flex gap-2" : ""}>
+          {isBullet && <span className="text-brand-accent shrink-0">•</span>}
+          <span className="block">
+            {parts.map((part, j) => {
+              if (!part) return null;
+
+              // 1. Handle Bold Text
+              if (part.startsWith('**') && part.endsWith('**')) {
+                return <strong key={j} className="font-bold text-white">{part.slice(2, -2)}</strong>;
+              }
+              
+              // 2. Handle Markdown Links: [Text](URL)
+              if (part.startsWith('[') && part.includes('](') && part.endsWith(')')) {
+                const match = part.match(/\[(.*?)\]\((.*?)\)/);
+                if (match) {
+                  let url = match[2];
+                  // Automatically fix missing mailto: for emails passed in markdown links
+                  if (url.includes('@') && !url.startsWith('mailto:') && !url.startsWith('http')) {
+                    url = 'mailto:' + url;
+                  }
+                  return (
+                    <a key={j} href={url} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline hover:text-blue-300 mx-0.5 inline-block break-all">
+                      {match[1]}
+                    </a>
+                  );
+                }
+              }
+
+              // 3. Handle Raw URLs
+              if (part.startsWith('http://') || part.startsWith('https://')) {
+                return (
+                  <a key={j} href={part} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline hover:text-blue-300 mx-0.5 inline-block break-all">
+                    {part}
+                  </a>
+                );
+              }
+
+              // 4. Handle Raw Emails
+              if (part.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+                return (
+                  <a key={j} href={`mailto:${part}`} className="text-blue-400 underline hover:text-blue-300 transition-colors mx-0.5 inline-block break-all">
+                    {part}
+                  </a>
+                );
+              }
+
+              // Normal text
+              return <span key={j}>{part}</span>;
+            })}
+          </span>
+        </div>
+      );
+    });
+  };
 
   return (
     <div className="fixed bottom-8 right-8 z-[1000] flex flex-col items-end">
@@ -142,7 +188,13 @@ export default function ChatWidget() {
                         : 'bg-white/[0.05] text-brand-accent/90 border border-white/5 text-xs'
                     }`}
                   >
-                    {msg.parts[0].text}
+                    {msg.role === 'user' ? (
+                      msg.parts[0].text
+                    ) : (
+                      <div className="space-y-2">
+                        {renderFormattedText(msg.parts[0].text)}
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -190,7 +242,6 @@ export default function ChatWidget() {
         <div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity group-hover:opacity-100"></div>
         {isOpen ? <ChevronDown className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
       </motion.button>
-
     </div>
   );
 }
