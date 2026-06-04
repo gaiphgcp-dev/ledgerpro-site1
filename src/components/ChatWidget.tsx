@@ -80,9 +80,30 @@ export default function ChatWidget() {
             {parts.map((part, j) => {
               if (!part) return null;
 
-              // 1. Handle Bold Text
+              // 1. Handle Bold Text (and check for emails inside)
               if (part.startsWith('**') && part.endsWith('**')) {
-                return <strong key={j} className="font-bold text-white">{part.slice(2, -2)}</strong>;
+                const innerText = part.slice(2, -2);
+                const emailRegex = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
+                
+                if (innerText.match(emailRegex)) {
+                  const emailParts = innerText.split(emailRegex);
+                  return (
+                    <strong key={j} className="font-bold text-white">
+                      {emailParts.map((ePart, k) => {
+                        if (ePart.match(emailRegex)) {
+                          return (
+                            <a key={k} href={`mailto:${ePart}`} className="text-blue-400 underline hover:text-blue-300 transition-colors mx-0.5 inline-block break-all">
+                              {ePart}
+                            </a>
+                          );
+                        }
+                        return ePart;
+                      })}
+                    </strong>
+                  );
+                }
+                
+                return <strong key={j} className="font-bold text-white">{innerText}</strong>;
               }
               
               // 2. Handle Markdown Links: [Text](URL)

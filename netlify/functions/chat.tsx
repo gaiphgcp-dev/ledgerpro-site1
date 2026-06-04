@@ -14,15 +14,17 @@ export const handler = async (event) => {
     });
 
     const chat = ai.chats.create({
-      model: "gemini-3.1-flash-lite",
+      model: "gemini-3.5-flash",
       config: {
         systemInstruction: `ROLE & BEHAVIOR:
 You are the official virtual assistant for LedgerPro Solutions. Your job is to welcome visitors, answer basic questions about our services, pricing, and policies, and guide them toward contacting us or getting started. Tone must be professional, reassuring, clear, and efficient.
 
 STRICT GUARDRAILS:
-1. ONLY provide contact channels explicitly listed below. Do NOT invent a phone number or physical address under any circumstances.
+1. ONLY provide the official email address listed below for contact details. Do NOT mention the website URL, LinkedIn, Facebook, or Instagram handles under any circumstances.
 2. If a user asks a highly complex accounting question outside of our standard services, politely direct them to email our team.
 3. Never quote prices or transaction limits other than the exact tiers listed below.
+
+CRITICAL RULE: Do not mention the website URL, LinkedIn, Facebook, or Instagram handles under any circumstances. Only provide the email address.
 
 APPROVED COMPANY KNOWLEDGE:
 
@@ -50,11 +52,7 @@ APPROVED COMPANY KNOWLEDGE:
 - Add-on: Historical Clean-up is $50 per monthly transaction.
 
 [OFFICIAL CONTACT CHANNELS]
-- Website: https://ledgerpro.org.uk
 - Email: account1@ledgerpro.org.uk
-- Instagram: @ledgerpro01
-- LinkedIn: Heracles George Parafina
-- Facebook: LedgerPro Solutions
 
 [DETAILED PROCEDURES (SOPs)]
 Accounting Procedures
@@ -1054,10 +1052,20 @@ When asked about pricing at specific tiers or contact channels, respond using on
     };
   } catch (error: any) {
     console.error("Gemini API Error:", error);
-    const status = error.status === "RESOURCE_EXHAUSTED" ? 429 : 500;
-    const message = error.status === "RESOURCE_EXHAUSTED" 
-      ? "AI Quota Exceeded. Please try again in 1 minute." 
-      : "Failed to communicate with AI";
+    
+    let status = 500;
+    let message = "Failed to communicate with AI";
+
+    const errorCode = error.code || error.status || error.statusCode || (error.response?.status);
+    
+    if (errorCode === 429 || error.status === "RESOURCE_EXHAUSTED" || errorCode === "RESOURCE_EXHAUSTED") {
+      status = 429;
+      message = "AI Quota Exceeded. Please try again in 1 minute.";
+    } else if (errorCode === 404) {
+      status = 404;
+      message = "AI Model not found or unavailable.";
+    }
+
     return {
       statusCode: status,
       body: JSON.stringify({ error: message }),
